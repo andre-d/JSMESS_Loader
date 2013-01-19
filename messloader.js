@@ -1,8 +1,9 @@
 var gamename = 'smurfs.zip';
 var game_file = null;
+var js_data = null;
 var bios_filenames = 'coleco.zip'.split(' ');
 var bios_files = {};
-var file_countdown = 0;
+var file_countdown = 1;
 if (bios_filenames.length !== 0 && bios_filenames[0] !== '') {
   file_countdown += bios_filenames.length;
 }
@@ -17,12 +18,12 @@ newCanvas.height = 256;
 var holder = document.getElementById('canvasholder');
 holder.appendChild(newCanvas);
 
-var fetch_file = function(url, cb) {
+var fetch_file = function(url, cb, rt, raw) {
   var xhr = new XMLHttpRequest();
   xhr.open("GET", url, true);
-  xhr.responseType = "arraybuffer";
+  xhr.responseType = rt ? rt : "arraybuffer";
   xhr.onload = function(e) {
-    var ints = new Int8Array(xhr.response);
+    var ints = raw ? xhr.response :  new Int8Array(xhr.response);
     cb(ints);
   };
   xhr.send();
@@ -55,11 +56,12 @@ var Module = {
 
 var update_countdown = function() {
   file_countdown -= 1;
+  
   if (file_countdown === 0) {
     var headID = document.getElementsByTagName("head")[0];
     var newScript = document.createElement('script');
     newScript.type = 'text/javascript';
-    newScript.src = 'messcolecovision.js.gz';
+    newScript.text = js_data;
     headID.appendChild(newScript);
   }
 };
@@ -76,3 +78,5 @@ for (var i=0; i < bios_filenames.length; i++) {
 if (gamename !== "") {
   fetch_file(gamename, function(data) { game_file = data; update_countdown(); });
 }
+
+fetch_file('messcolecovision.js.gz', function(data) { js_data = data; update_countdown(); }, 'text', true);
