@@ -1,6 +1,17 @@
 <html>
 	<head>
 		<title>MESS in a browser!</title>
+<style>
+#canvas {
+	width: 512;
+	height: 384;
+	image-rendering: -moz-crisp-edges;         /* Firefox */
+                   image-rendering:   -o-crisp-edges;         /* Opera */
+                   image-rendering: -webkit-optimize-contrast;/* Webkit (non-standard naming) */
+                   image-rendering: crisp-edges;
+                   -ms-interpolation-mode: nearest-neighbor;  /* IE (non-standard property) */
+}
+</style>
 <script type='text/javascript' src='modernizr-custom.js'></script>
 <script type='text/javascript'>
 Modernizr.addTest('typedarray', function(){

@@ -4,8 +4,8 @@ var file_countdown = 1;
 
 var newCanvas = document.createElement('canvas');
 newCanvas.id = 'canvas';
-newCanvas.width = 256;
-newCanvas.height = 256;
+newCanvas.width = 512;
+newCanvas.height = 384;
 var holder = document.getElementById('canvasholder');
 holder.appendChild(newCanvas);
 
