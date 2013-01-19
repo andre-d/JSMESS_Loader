@@ -48,8 +48,8 @@ var progress_fetch_file = function(e) {
 
 var fetch_file = function(title, url, cb, rt, raw) {
   var xhr = new XMLHttpRequest();
-  xhr.open("GET", url, true);
-  xhr.responseType = rt ? rt : "arraybuffer";
+  xhr.open('GET', url, true);
+  xhr.responseType = rt ? rt : 'arraybuffer';
   xhr.onload = function(e) {
     xhr.progress = 1.0;
     draw_loading_status();
@@ -68,9 +68,9 @@ var Module = {
   print: (function() {
     var element = document.getElementById('output');
     return function(text) {
-      text = text.replace(/&/g, "&amp;");
-      text = text.replace(/</g, "&lt;");
-      text = text.replace(/>/g, "&gt;");
+      text = text.replace(/&/g, '&amp;');
+      text = text.replace(/</g, '&lt;');
+      text = text.replace(/>/g, '&gt;');
       text = text.replace('\n', '<br>', 'g');
       element.innerHTML += text + '<br>';
     };
@@ -92,7 +92,7 @@ var update_countdown = function() {
   file_countdown -= 1;
   
   if (file_countdown === 0) {
-    var headID = document.getElementsByTagName("head")[0];
+    var headID = document.getElementsByTagName('head')[0];
     var newScript = document.createElement('script');
     newScript.type = 'text/javascript';
     newScript.text = js_data;
@@ -103,13 +103,13 @@ var update_countdown = function() {
 // Fetch the BIOS and the game we want to run.
 for (var i=0; i < bios_filenames.length; i++) {
   var fname = bios_filenames[i];
-  if (fname === "") {
+  if (fname === '') {
     continue;
   }
   fetch_file('Bios', fname, function(data) { bios_files[fname] = data; update_countdown(); });
 }
 
-if (gamename !== "") {
+if (gamename !== '') {
   fetch_file('Game', gamename, function(data) { game_file = data; update_countdown(); });
 }
 
