@@ -21,22 +21,36 @@ holder.appendChild(newCanvas);
 
 var draw_loading_status = function() {
   var font_height = 18;
-  var line_height = (newCanvas.height - (font_height * 2)) / (requests.length);
+  var line_height = newCanvas.height - (font_height * 2);
   var context = newCanvas.getContext('2d');
+  var progress = 0;
   context.clearRect(0, 0, newCanvas.width, newCanvas.height);
   context.font = font_height + 'px sans-serif';
   context.fillStyle = 'Black';
   context.fillText('Loading...', 0, font_height);
   for(var i = 0; i < requests.length; i++) {
      var o = requests[i];
-     var y = (line_height * i) + (font_height * 2);
-     context.fillStyle = 'Red';
-     context.fillRect(0, y, newCanvas.width, line_height);
-     context.fillStyle = 'Green';
-     context.fillRect(0, y, newCanvas.width * o.progress, line_height);
-     context.fillStyle = 'Black';
-     context.fillText(o.title + ' ' + Math.round(o.progress * 100) + '%', 0, y + (font_height / 2) + (line_height / 2));     
-}
+     progress += o.progress;
+  }
+  progress /= requests.length;
+  var str;
+  if(progress > 1.0) {
+    str = "Loading program...";
+  } else {
+    var n_progress = Math.round(progress * 100);
+    if(n_progress >= 100) {
+      str = "Done";
+    } else {
+      str =  n_progress + '%';
+    }
+  }
+  var y = (font_height * 2);
+  context.fillStyle = 'Red';
+  context.fillRect(0, y, newCanvas.width, line_height);
+  context.fillStyle = 'Green';
+  context.fillRect(0, y, newCanvas.width * progress, line_height);
+  context.fillStyle = 'Black';
+  context.fillText(str, 0, y + (font_height / 2) + (line_height / 2));      
 }
 
 var progress_fetch_file = function(e) {
