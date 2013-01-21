@@ -1,39 +1,65 @@
-<html>
-	<head>
-		<title>MESS in a browser!</title>
-<style>
-#canvas {
-	width: 512;
-	height: 384;
-	image-rendering: -moz-crisp-edges;         /* Firefox */
-                   image-rendering:   -o-crisp-edges;         /* Opera */
-                   image-rendering: -webkit-optimize-contrast;/* Webkit (non-standard naming) */
-                   image-rendering: crisp-edges;
-                   -ms-interpolation-mode: nearest-neighbor;  /* IE (non-standard property) */
-}
-</style>
-<script type='text/javascript' src='modernizr-custom.js'></script>
-<script type='text/javascript'>
-Modernizr.addTest('typedarray', function(){
-  return (window.Float64Array != undefined);
-});
-Modernizr.load({
-	test: Modernizr.canvas && Modernizr.typedarray,
-	yep : [
-		'https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js',
-		'jquery.url.js',
-		'messloader.js'
-	],
-	nope : 'messfail.js'
-});
-</script>
-</head>
-<body>
-	<h1 style="text-align: center;">MESS in a browser!</h1>
-	<div id='canvasholder' style="text-align: center;">
-	</div>
-	<div id='status' style="display:block;"></div>
-	<div id='output' style="display:block;"></div>
-</body>
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset=utf-8>
+        <title>MESS in a browser!</title>
+        <style>
+            #output {
+                font-family: "Courier New", monospace;
+                white-space: pre;
+                width: 100%;
+                overflow: scroll;
+                overflow-x: hidden;
+                height: 50%;
+                position: fixed;
+                bottom: 0px;
+                z-index: 0;
+            }
+            
+            canvas {
+                position: relative;
+                z-index: 2;
+                width: 512px;
+                height: 384px;
+                image-rendering: -moz-crisp-edges;
+                image-rendering: -o-crisp-edges;
+                image-rendering: -webkit-optimize-contrast;
+                image-rendering: crisp-edges;
+                -ms-interpolation-mode: nearest-neighbor;
+            }
+        </style>
+        <script type='text/javascript' src='gamelist.js'></script>
+        <script type='text/javascript' src='messloader.js'></script>
+        <script type='text/javascript'>
+            function ready() {
+                var select = document.getElementById("selgame"); 
+
+                for(var i = 0; i < games.length; i++) {
+                    var o = document.createElement("option");
+                    o.textContent = games[i];
+                    o.value = games[i];
+                    select.appendChild(o);
+                }
+                
+                var output = document.getElementById('output');
+                var canvas = document.getElementById('canvas');
+                mess = new JSMESS(canvas, 'colecovision', output);
+                mess.setgame(games[0]);
+                select.addEventListener('change', switchgame);
+            }
+            
+            function switchgame(e) {
+                mess.setgame(e.target.value);
+            }
+        </script>
+    </head>
+    <body onload="ready()">
+        <h1 style="text-align: center;">MESS in a browser!</h1>
+        <div id='canvasholder' style="text-align: center;">
+            <select id="selgame"></select><br/>
+            <canvas id="canvas" width="512" height="384"></canvas>
+        </div>
+        <div id='output' style="display:block;"></div>
+    </body>
 </html>
 
