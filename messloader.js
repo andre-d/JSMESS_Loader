@@ -8,7 +8,7 @@ function JSMESS(canvas, module, output, game) {
   var game = game;
   var module = module;
 
-  this.setgame = function(_module) {
+  this.setmodule = function(_module) {
     module = _module;
   }
 
@@ -162,10 +162,12 @@ function JSMESS(canvas, module, output, game) {
     context.clearRect(0, 0, canvas.width, canvas.height);
     var img = new Image();
     img.onload = function(){
-      context.drawImage(img, 0, 0);
+      context.drawImage(img, canvas.width / 2 - (img.width / 2), canvas.height / 2 - (img.height / 2));
       context.font = '18px sans-serif';
       context.fillStyle = 'Black';
-      context.fillText('press space', 0, Math.min(img.height + 18, canvas.height - 18));
+      context.textAlign = 'center';
+      context.fillText('press space', canvas.width / 2, (canvas.height / 2) + (img.height / 2));
+      context.textAlign = 'start';
     };
     img.src = 'splash.png';
   }

@@ -37,20 +37,24 @@
 
                 for(var i = 0; i < games.length; i++) {
                     var o = document.createElement("option");
-                    o.textContent = games[i];
-                    o.value = games[i];
+                    o.textContent = games[i][0];
+                    o.value = games[i][0];
+                    o.dataset.module = games[i][1];
                     select.appendChild(o);
                 }
                 
                 var output = document.getElementById('output');
                 var canvas = document.getElementById('canvas');
-                mess = new JSMESS(canvas, 'colecovision', output);
-                mess.setgame(games[0]);
+                mess = new JSMESS(canvas);
+                mess.setgame(games[0][0]);
+                mess.setmodule(games[0][1])
                 select.addEventListener('change', switchgame);
             }
             
             function switchgame(e) {
                 mess.setgame(e.target.value);
+                var module = e.target.options[e.target.selectedIndex].dataset.module;
+                mess.setmodule(module);
             }
         </script>
     </head>
