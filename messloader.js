@@ -18,41 +18,46 @@ function JSMESS(canvas, module, output, game) {
 
   var draw_loading_status = function() {
     var font_height = 18;
-    var line_height = canvas.height - (font_height * 2);
+    var line_height = (font_height * 2);
     var context = canvas.getContext('2d');
-    var progress = 0;
     context.clearRect(0, 0, canvas.width, canvas.height);
     context.font = font_height + 'px sans-serif';
     context.fillStyle = 'Black';
     context.fillText('Loading...', 0, font_height);
+    
     for(var i = 0; i < requests.length; i++) {
-       var o = requests[i];
-       progress += o.progress;
-    }
-    progress /= requests.length;
-    var str;
-    if(progress > 1.0) {
-      str = 'Loading program...';
-    } else {
-      var n_progress = Math.round(progress * 100);
-      if(n_progress >= 100) {
-        str = 'Done';
+      var o = requests[i];
+      var str = " ";
+      
+      if(o.title == 'Javascript' || !o.lengthComputable) {
+        str += "-";
+      } else if(o.progress >= 1.0) {
+        str += "\u221A";
       } else {
-        str =  n_progress + '%';
+        str += "x";
       }
-    }
-    var y = (font_height * 2);
-    context.fillStyle = 'Red';
-    context.fillRect(0, y, canvas.width, line_height);
-    context.fillStyle = 'Green';
-    context.fillRect(0, y, canvas.width * progress, line_height);
-    context.fillStyle = 'Black';
-    context.fillText(str, 0, y + (font_height / 2) + (line_height / 2));      
+     
+      var y = (line_height) + font_height + (i * line_height);
+      
+      context.fillText(str, 0, y);
+
+      str = o.title;
+      str += " " + o.loaded;
+      if(o.title != 'Javascript' && o.lengthComputable) {
+        str += "/" + o.total;
+      }
+      str += "bytes";
+      
+      context.fillText(str, 35, y);
+    }  
   };
 
   var progress_fetch_file = function(e) {
     if(e.lengthComputable) {
       e.target.progress = e.loaded / e.total;
+      e.target.loaded = e.loaded;
+      e.target.total = e.total;
+      e.target.lengthComputable = e.lengthComputable;
       draw_loading_status();
     }
   };
@@ -73,6 +78,9 @@ function JSMESS(canvas, module, output, game) {
       xhr.onprogress = progress_fetch_file;
       xhr.title = title;
       xhr.progress = 0;
+      xhr.total = 0;
+      xhr.loaded = 0;
+      xhr.lengthComputable = false;
       requests.push(xhr);
     }
     xhr.send();
