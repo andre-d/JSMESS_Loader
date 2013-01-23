@@ -29,36 +29,66 @@
                 -ms-interpolation-mode: nearest-neighbor;
             }
         </style>
-        <script type='text/javascript' src='gamelist.js'></script>
         <script type='text/javascript' src='messloader.js'></script>
         <script type='text/javascript'>
+            _DEBUGOUTPUT = get('debug');
+            
+            games = [];
+            
+            function get(name) {
+                if(name=(new RegExp('[?&]'+encodeURIComponent(name)+'=([^&]*)')).exec(location.search))
+                    return decodeURIComponent(name[1]);
+            }
+            
+            function getmodule() {
+                module = get('module');
+                module = module ? module : 'colecovision';
+            }
+            
+            function getgamelist() {
+                var xhr = new XMLHttpRequest();
+                xhr.open('GET', module + '-gamelist.json', true);
+                xhr.onload = function() {games = JSON.parse(xhr.response).games;window.setTimeout(ready, 0)};
+                xhr.send();
+                
+            }
+            
+            function emustart(data) {
+                var size = data.native_resolution;
+                data.canvas.style.width = size[0] * 2 + 'px';
+                data.canvas.style.height = size[1] * 2 + 'px';
+            }
+            
+            function init() {
+                getmodule();
+                getgamelist();
+            }
+            
             function ready() {
                 var select = document.getElementById("selgame"); 
 
                 for(var i = 0; i < games.length; i++) {
                     var o = document.createElement("option");
-                    o.textContent = games[i][0];
-                    o.value = games[i][0];
-                    o.dataset.module = games[i][1];
+                    o.textContent = games[i];
+                    o.value = games[i];
                     select.appendChild(o);
                 }
                 
                 var output = document.getElementById('output');
                 var canvas = document.getElementById('canvas');
-                mess = new JSMESS(canvas);
-                mess.setgame(games[0][0]);
-                mess.setmodule(games[0][1])
+                mess = new JSMESS(canvas, undefined, _DEBUGOUTPUT ? output : undefined)
+                    .setcallback(emustart)
+                    .setgame('roms/' + module + '/' + games[0])
+                    .setmodule(module);
                 select.addEventListener('change', switchgame);
             }
             
             function switchgame(e) {
-                mess.setgame(e.target.value);
-                var module = e.target.options[e.target.selectedIndex].dataset.module;
-                mess.setmodule(module);
+                mess.setgame('roms/' + module + '/' + e.target.value)
             }
         </script>
     </head>
-    <body onload="ready()">
+    <body onload="init()">
         <h1 style="text-align: center;">MESS in a browser!</h1>
         <div id='canvasholder' style="text-align: center;">
             <select id="selgame"></select><br/>

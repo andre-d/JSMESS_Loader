@@ -1,19 +1,24 @@
 var Module = null;
 
-function JSMESS(canvas, module, output, game) {
+function JSMESS(canvas, module, output, game, callback) {
   var js_data;
   var moduledata;
   var requests = [];
   var file_countdown  = 1;
-  var game = game;
-  var module = module;
+
+  this.setcallback = function(_callback) {
+    callback = _callback;
+    return this;
+  }
 
   this.setmodule = function(_module) {
     module = _module;
+    return this;
   }
 
   this.setgame = function(_game) {
     game = _game;
+    return this;
   }
 
   var draw_loading_status = function() {
@@ -98,7 +103,7 @@ function JSMESS(canvas, module, output, game) {
   };
 
   var init_module = function() {
-    modulecfg = JSON.parse(moduledata);
+    var modulecfg = JSON.parse(moduledata);
     
     var game_file = null;
     var bios_filenames = modulecfg['bios_filenames'];
@@ -114,7 +119,7 @@ function JSMESS(canvas, module, output, game) {
     var nr = modulecfg['native_resolution'];
     
     Module = {
-      'arguments': [modulecfg['driver'],'-verbose','-rompath','.','-' + modulecfg['peripherals'][0],game,'-window','-resolution',nr[0]+'x' + nr[1],'-nokeepaspect'].concat(modulecfg['extra_args']),
+      'arguments': [modulecfg['driver'],'-verbose','-rompath','.','-' + modulecfg['peripherals'][0],game.replace(/\//g,'_'),'-window','-resolution',nr[0]+'x' + nr[1],'-nokeepaspect'].concat(modulecfg['extra_args']),
       print: (function() {
         return function(text) {
           if(!output) {
@@ -137,7 +142,11 @@ function JSMESS(canvas, module, output, game) {
             Module['FS_createDataFile']('/', bios_fname, bios_files[bios_fname], true, true);
           }
         }
-        Module['FS_createDataFile']('/', game, game_file, true, true);
+        Module['FS_createDataFile']('/', game.replace(/\//g,'_'), game_file, true, true);
+        if(callback) {
+          modulecfg.canvas = canvas;
+          window.setTimeout(function() {callback(modulecfg)}, 0);
+        }
       }
     };
 
@@ -151,7 +160,7 @@ function JSMESS(canvas, module, output, game) {
     }
 
     if (game !== '') {
-      fetch_file('Game', 'games/' + game, function(data) { game_file = data; update_countdown(); });
+      fetch_file('Game', game, function(data) { game_file = data; update_countdown(); });
     }
 
     fetch_file('Javascript', modulecfg['js_filename'], function(data) { js_data = data; update_countdown(); }, 'text', true);
