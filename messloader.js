@@ -166,7 +166,7 @@ function JSMESS(canvas, module, output, game) {
   }
   
   var drawsplash = function() {
-    var context = document.getElementById('canvas').getContext('2d');
+    var context = canvas.getContext('2d');
     context.clearRect(0, 0, canvas.width, canvas.height);
     var img = new Image();
     img.onload = function(){
