@@ -169,6 +169,7 @@ function JSMESS(canvas, module, output, game, callback) {
   
   var keyevent = function(e) {
     if(e.which == 32) {
+      e.preventDefault();
       window.removeEventListener('keypress', keyevent);
       fetch_file('Javascript', module + '.json', function(data) { moduledata = data; drawsplash(); init_module(); }, 'text', true, true);
     }
