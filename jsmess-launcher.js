@@ -68,9 +68,8 @@
       }
     }
 
-    var output = document.getElementById('output');
     var canvas = document.getElementById('canvas');
-    mess = new JSMESS(canvas, undefined, get('debug') ? output : undefined)
+    mess = new JSMESS(canvas)
       .setprecallback(emustart)
       .setscale(get('scale') ? parseFloat(get('scale')) : 1)
       .setmodule(module);

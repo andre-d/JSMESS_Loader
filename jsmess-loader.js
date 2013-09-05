@@ -1,6 +1,6 @@
 var Module = null;
 
-function JSMESS(canvas, module, output, game, precallback, callback, scale) {
+function JSMESS(canvas, module, game, precallback, callback, scale) {
   var js_data;
   var moduledata;
   var requests = [];
@@ -127,15 +127,7 @@ function JSMESS(canvas, module, output, game, precallback, callback, scale) {
       arguments: arguments,
       print: (function() {
         return function(text) {
-          if (!output) {
-            return;
-          }
-          text = text.replace(/&/g, '&amp;');
-          text = text.replace(/</g, '&lt;');
-          text = text.replace(/>/g, '&gt;');
-          text = text.replace('\n', '<br>', 'g');
-          output.innerHTML += text + '<br>';
-          output.scrollTop = output.scrollHeight;
+          console.log(text);
         };
       })(),
       canvas: canvas,
