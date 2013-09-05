@@ -99,6 +99,7 @@ function JSMESS(canvas, module, output, game, callback) {
       '-verbose',
       '-rompath','.',
       '-window',
+      '-nosound',
       '-resolution', nr[0]+'x' + nr[1],
       '-nokeepaspect'
     ];
