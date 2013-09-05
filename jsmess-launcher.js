@@ -26,7 +26,9 @@
     xhr.send();
   }
 
-  function emustart(data) {}
+  function emustart() {
+    document.getElementById('selgame').style.display = 'none';
+  }
 
   function init() {
     getmodule();
@@ -57,7 +59,7 @@
     var output = document.getElementById('output');
     var canvas = document.getElementById('canvas');
     mess = new JSMESS(canvas, undefined, get('debug') ? output : undefined)
-      .setcallback(emustart)
+      .setprecallback(emustart)
       .setmodule(module);
     setgame(games ? games[0] : get('game'))
   }
