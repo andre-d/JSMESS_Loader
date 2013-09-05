@@ -143,14 +143,12 @@ function JSMESS(canvas, module, output, game, callback) {
       }
     };
 
+    bios_filenames = bios_filenames.filter(String);
     file_countdown = bios_filenames.length + game ? 1 : 0 + 1
 
     // Fetch the BIOS and the game we want to run.
     for (var i=0; i < bios_filenames.length; i++) {
       var fname = bios_filenames[i];
-      if (!fname) {
-        continue;
-      }
       fetch_file('Bios', fname, function(data) { bios_files[fname] = data; update_countdown(); });
     }
 
