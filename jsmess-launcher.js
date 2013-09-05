@@ -63,6 +63,9 @@
       .setscale(get('scale') ? parseFloat(get('scale')) : 1)
       .setmodule(module);
     setgame(games ? games[0] : get('game'))
+    if (get('autostart')) {
+      mess.start();
+    }
   }
 
   function setgame(game) {

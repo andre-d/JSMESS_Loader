@@ -176,14 +176,20 @@ function JSMESS(canvas, module, output, game, precallback, callback, scale) {
   var keyevent = function(e) {
     if (e.which == 32) {
       e.preventDefault();
-      window.removeEventListener('keypress', keyevent);
-      drawloadingtimer = window.setInterval(draw_loading_status, 1000/60);
-      if (precallback) {
-        window.setTimeout(function() {precallback()}, 0); 
-      }
-      fetch_file('ModuleInfo', module + '.json', function(data) { moduledata = data; init_module(); }, 'text', true, true);
+      start();
     }
   }
+
+  var start = function() {
+    window.removeEventListener('keypress', keyevent);
+    drawloadingtimer = window.setInterval(draw_loading_status, 1000/60);
+    if (precallback) {
+      window.setTimeout(function() {precallback()}, 0);
+    }
+    fetch_file('ModuleInfo', module + '.json', function(data) { moduledata = data; init_module(); }, 'text', true, true);
+    return this;
+  }
+  this.start = start;
 
   var drawsplash = function() {
     var context = canvas.getContext('2d');
