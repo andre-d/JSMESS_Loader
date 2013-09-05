@@ -163,14 +163,14 @@ function JSMESS(canvas, module, output, game, callback) {
     }
 
     fetch_file('Javascript', modulecfg['js_filename'], function(data) { js_data = data; update_countdown(); }, 'text', true);
-    drawloadingtimer = window.setInterval(draw_loading_status, 1000/60);
   };
 
   var keyevent = function(e) {
     if (e.which == 32) {
       e.preventDefault();
       window.removeEventListener('keypress', keyevent);
-      fetch_file('ModuleInfo', module + '.json', function(data) { moduledata = data; drawsplash(); init_module(); }, 'text', true, true);
+      drawloadingtimer = window.setInterval(draw_loading_status, 1000/60);
+      fetch_file('ModuleInfo', module + '.json', function(data) { moduledata = data; init_module(); }, 'text', true, true);
     }
   }
 
