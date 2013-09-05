@@ -6,7 +6,6 @@
         <style>
             canvas {
                 border: 4px black solid;
-                z-index: 2;
                 image-rendering: -moz-crisp-edges;
                 image-rendering: -o-crisp-edges;
                 image-rendering: -webkit-optimize-contrast;
@@ -14,7 +13,7 @@
                 -ms-interpolation-mode: nearest-neighbor;
             }
             
-            h1, #canvasholder {
+            #canvasholder {
                 text-align: center;
             }
         </style>
@@ -22,7 +21,6 @@
         <script type='text/javascript' src='jsmess-launcher.js'></script>
     </head>
     <body>
-        <h1>MESS in a browser!</h1>
         <div id='canvasholder'>
             <select id="selgame"></select><br/>
             <canvas id="canvas" width="512" height="512"></canvas>
