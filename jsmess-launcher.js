@@ -60,6 +60,7 @@
     var canvas = document.getElementById('canvas');
     mess = new JSMESS(canvas, undefined, get('debug') ? output : undefined)
       .setprecallback(emustart)
+      .setscale(get('scale') ? parseFloat(get('scale')) : 1)
       .setmodule(module);
     setgame(games ? games[0] : get('game'))
   }

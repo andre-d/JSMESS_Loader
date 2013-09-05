@@ -1,6 +1,6 @@
 var Module = null;
 
-function JSMESS(canvas, module, output, game, precallback, callback) {
+function JSMESS(canvas, module, output, game, precallback, callback, scale) {
   var js_data;
   var moduledata;
   var requests = [];
@@ -9,6 +9,11 @@ function JSMESS(canvas, module, output, game, precallback, callback) {
   var spinnerrot = 0;
   var splashimg = new Image();
   var spinnerimg = new Image();
+
+  this.setscale = function(_scale) {
+    scale = _scale
+    return this;
+  }
 
   this.setprecallback = function(_precallback) {
     precallback = _precallback;
@@ -98,6 +103,9 @@ function JSMESS(canvas, module, output, game, precallback, callback) {
     var bios_files = {};
 
     var nr = modulecfg['native_resolution'];
+
+    canvas.style.width = (nr[0] * scale) + 'px';
+    canvas.style.height = (nr[1] * scale) + 'px';
 
     var arguments = [
       modulecfg['driver'],
