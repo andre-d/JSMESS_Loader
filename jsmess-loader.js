@@ -59,6 +59,9 @@ function JSMESS(canvas, module, output, game, callback) {
     xhr.open('GET', url, true);
     xhr.responseType = rt ? rt : 'arraybuffer';
     xhr.onload = function(e) {
+      if (xhr.status != 200) {
+        return;
+      }
       if (!unmanaged) {
         xhr.progress = 1.0;
       }
