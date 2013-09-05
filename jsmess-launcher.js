@@ -14,6 +14,17 @@
     module = module ? module : 'test';
   }
 
+  function getextrahtml() {
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', module + '.html');
+    xhr.onload = function() {
+      if (xhr.status == 200) {
+        document.body.innerHTML += xhr.response;
+      }
+    };
+    xhr.send();
+  }
+
   function getgamelist() {
     var xhr = new XMLHttpRequest();
     xhr.open('GET', module + '-gamelist.json', true);
@@ -32,6 +43,7 @@
 
   function init() {
     getmodule();
+    getextrahtml();
     if(!get('game')) {
       getgamelist();
     } else {
