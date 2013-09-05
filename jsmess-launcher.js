@@ -26,11 +26,7 @@
     xhr.send();
   }
 
-  function emustart(data) {
-    var size = data.native_resolution;
-    data.canvas.style.width = size[0] * 2 + 'px';
-    data.canvas.style.height = size[1] * 2 + 'px';
-  }
+  function emustart(data) {}
 
   function init() {
     getmodule();
