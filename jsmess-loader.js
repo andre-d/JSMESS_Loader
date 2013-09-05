@@ -7,6 +7,8 @@ function JSMESS(canvas, module, output, game, callback) {
   var drawloadingtimer;
   var file_countdown;
   var spinnerrot = 0;
+  var splashimg = new Image();
+  var spinnerimg = new Image();
 
   this.setcallback = function(_callback) {
     callback = _callback;
@@ -26,23 +28,14 @@ function JSMESS(canvas, module, output, game, callback) {
   var draw_loading_status = function() {
     var context = canvas.getContext('2d');
     context.clearRect(0, 0, canvas.width, canvas.height);
-    var spinnerpos;
-    var img = new Image();
-    var spinner = new Image();
-    spinner.onload = function() {
-      context.save();
-      context.translate((canvas.width / 2), spinnerpos);
-      context.rotate(spinnerrot);
-      context.drawImage(spinner, -(64/2), -(64/2), 64, 64);
-      context.restore();
-      spinnerrot += .5;
-    };
-    img.onload = function(){
-      context.drawImage(img, canvas.width / 2 - (img.width / 2), canvas.height / 3 - (img.height / 2));
-      spinnerpos = (canvas.height / 2 + img.height / 2) + 16
-      spinner.src = 'spinner.png';
-    };
-    img.src = 'splash.png';
+    context.drawImage(splashimg, canvas.width / 2 - (splashimg.width / 2), canvas.height / 3 - (splashimg.height / 2));
+    var spinnerpos = (canvas.height / 2 + splashimg.height / 2) + 16;
+    context.save();
+    context.translate((canvas.width / 2), spinnerpos);
+    context.rotate(spinnerrot);
+    context.drawImage(spinnerimg, -(64/2), -(64/2), 64, 64);
+    context.restore();
+    spinnerrot += .25;
   };
 
   var progress_fetch_file = function(e) {
@@ -180,16 +173,16 @@ function JSMESS(canvas, module, output, game, callback) {
   var drawsplash = function() {
     var context = canvas.getContext('2d');
     context.clearRect(0, 0, canvas.width, canvas.height);
-    var img = new Image();
-    img.onload = function(){
-      context.drawImage(img, canvas.width / 2 - (img.width / 2), canvas.height / 3 - (img.height / 2));
+    splashimg.onload = function(){
+      context.drawImage(splashimg, canvas.width / 2 - (splashimg.width / 2), canvas.height / 3 - (splashimg.height / 2));
       context.font = '18px sans-serif';
       context.fillStyle = 'Black';
       context.textAlign = 'center';
-      context.fillText('press space', canvas.width / 2, (canvas.height / 2) + (img.height / 2));
+      context.fillText('press space', canvas.width / 2, (canvas.height / 2) + (splashimg.height / 2));
       context.textAlign = 'start';
     };
-    img.src = 'splash.png';
+    spinnerimg.onload = function() { splashimg.src = 'splash.png'; }
+    spinnerimg.src = 'spinner.png';
   }
 
   window.addEventListener('keypress', keyevent);
