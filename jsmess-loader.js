@@ -1,6 +1,6 @@
 var Module = null;
 
-function JSMESS(canvas, module, output, game, callback) {
+function JSMESS(canvas, module, output, game, precallback, callback) {
   var js_data;
   var moduledata;
   var requests = [];
@@ -9,6 +9,11 @@ function JSMESS(canvas, module, output, game, callback) {
   var spinnerrot = 0;
   var splashimg = new Image();
   var spinnerimg = new Image();
+
+  this.setprecallback = function(_precallback) {
+    precallback = _precallback;
+    return this;
+  }
 
   this.setcallback = function(_callback) {
     callback = _callback;
@@ -165,6 +170,9 @@ function JSMESS(canvas, module, output, game, callback) {
       e.preventDefault();
       window.removeEventListener('keypress', keyevent);
       drawloadingtimer = window.setInterval(draw_loading_status, 1000/60);
+      if (precallback) {
+        window.setTimeout(function() {precallback()}, 0); 
+      }
       fetch_file('ModuleInfo', module + '.json', function(data) { moduledata = data; init_module(); }, 'text', true, true);
     }
   }
