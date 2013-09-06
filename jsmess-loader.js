@@ -155,14 +155,14 @@ function JSMESS(canvas, module, game, precallback, callback, scale) {
     // Fetch the BIOS and the game we want to run.
     for (var i=0; i < bios_filenames.length; i++) {
       var fname = bios_filenames[i];
-      fetch_file('Bios', fname, function(data) { bios_files[fname] = data; update_countdown(); });
+      fetch_file('Bios', 'bios/' + fname, function(data) { bios_files[fname] = data; update_countdown(); });
     }
 
     if (game) {
       fetch_file('Game', game, function(data) { game_file = data; update_countdown(); });
     }
 
-    fetch_file('Javascript', modulecfg['js_filename'], function(data) { js_data = data; update_countdown(); }, 'text', true);
+    fetch_file('Javascript', 'jsmess/' + modulecfg['js_filename'], function(data) { js_data = data; update_countdown(); }, 'text', true);
   };
 
   var keyevent = function(e) {
@@ -178,7 +178,7 @@ function JSMESS(canvas, module, game, precallback, callback, scale) {
     if (precallback) {
       window.setTimeout(function() {precallback()}, 0);
     }
-    fetch_file('ModuleInfo', module + '.json', function(data) { moduledata = data; init_module(); }, 'text', true, true);
+    fetch_file('ModuleInfo', 'json/' + module + '.json', function(data) { moduledata = data; init_module(); }, 'text', true, true);
     return this;
   }
   this.start = start;

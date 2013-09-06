@@ -16,7 +16,7 @@
 
   function getextrahtml() {
     var xhr = new XMLHttpRequest();
-    xhr.open('GET', module + '.html');
+    xhr.open('GET', 'html/' + module + '.html');
     xhr.onload = function() {
       if (xhr.status == 200) {
         document.body.innerHTML += xhr.response;
@@ -27,7 +27,7 @@
 
   function getgamelist() {
     var xhr = new XMLHttpRequest();
-    xhr.open('GET', module + '-gamelist.json', true);
+    xhr.open('GET', 'json/' + module + '-gamelist.json', true);
     xhr.onload = function() {
       if (xhr.status == 200) {
         games = JSON.parse(xhr.response).games;
