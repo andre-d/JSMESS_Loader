@@ -106,6 +106,8 @@ function JSMESS(canvas, module, game, precallback, callback, scale) {
 
     canvas.style.width = (nr[0] * scale) + 'px';
     canvas.style.height = (nr[1] * scale) + 'px';
+    canvas.width = nr[0];
+    canvas.height = nr[1];
 
     var arguments = [
       modulecfg['driver'],
