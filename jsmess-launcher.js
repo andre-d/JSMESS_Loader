@@ -14,13 +14,13 @@
     module = module ? module : 'test';
   }
 
-  function getextrahtml(id, folder) {
+  function getextrahtml(id, folder, file) {
     var moduleinfo = document.getElementById(id);
     if (!moduleinfo) {
       return;
     }
     var xhr = new XMLHttpRequest();
-    xhr.open('GET', folder + '/' + module + '.html');
+    xhr.open('GET', folder + '/' + file + '.html');
     xhr.onload = function() {
       if (xhr.status == 200) {
         moduleinfo.innerHTML = xhr.response;
@@ -47,8 +47,7 @@
 
   function init() {
     getmodule();
-    getextrahtml('moduleinfo', 'html');
-    getextrahtml('gameinfo', 'gamehtml');
+    getextrahtml('moduleinfo', 'html', module);
     if(!get('game')) {
       getgamelist();
     } else {
@@ -86,6 +85,11 @@
 
   function setgame(game) {
     game = (game == 'NONE') ? undefined : game;
+    if (game) {
+       getextrahtml('gameinfo', 'gamehtml', game);
+    } else {
+       document.getElementById('gameinfo').innerHTML = '';
+    }
     mess.setgame(game ? 'roms/' + module + '/' + game : undefined);
   }
 
