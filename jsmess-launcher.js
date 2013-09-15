@@ -14,13 +14,13 @@
     module = module ? module : 'test';
   }
 
-  function getextrahtml() {
-    var moduleinfo = document.getElementById('moduleinfo');
+  function getextrahtml(id, folder) {
+    var moduleinfo = document.getElementById(id);
     if (!moduleinfo) {
       return;
     }
     var xhr = new XMLHttpRequest();
-    xhr.open('GET', 'html/' + module + '.html');
+    xhr.open('GET', folder + '/' + module + '.html');
     xhr.onload = function() {
       if (xhr.status == 200) {
         moduleinfo.innerHTML = xhr.response;
@@ -47,7 +47,8 @@
 
   function init() {
     getmodule();
-    getextrahtml();
+    getextrahtml('moduleinfo', 'html');
+    getextrahtml('gameinfo', 'gamehtml');
     if(!get('game')) {
       getgamelist();
     } else {
