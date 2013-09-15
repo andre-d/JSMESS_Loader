@@ -15,11 +15,15 @@
   }
 
   function getextrahtml() {
+    var moduleinfo = document.getElementById('moduleinfo');
+    if (!moduleinfo) {
+      return;
+    }
     var xhr = new XMLHttpRequest();
     xhr.open('GET', 'html/' + module + '.html');
     xhr.onload = function() {
       if (xhr.status == 200) {
-        document.body.innerHTML += xhr.response;
+        moduleinfo.innerHTML = xhr.response;
       }
     };
     xhr.send();
