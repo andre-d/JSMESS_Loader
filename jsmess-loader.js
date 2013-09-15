@@ -193,7 +193,7 @@ function JSMESS(canvas, module, game, precallback, callback, scale) {
       context.font = '18px sans-serif';
       context.fillStyle = 'Black';
       context.textAlign = 'center';
-      context.fillText('press space', canvas.width / 2, (canvas.height / 2) + (splashimg.height / 2));
+      context.fillText('Press the SPACEBAR to start.', canvas.width / 2, (canvas.height / 2) + (splashimg.height / 2));
       context.textAlign = 'start';
     };
     spinnerimg.onload = function() { splashimg.src = 'splash.png'; }
