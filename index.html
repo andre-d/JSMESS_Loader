@@ -16,14 +16,24 @@
             #canvasholder {
                 text-align: center;
             }
+
+	    :-webkit-full-screen {
+	         position: fixed;
+	         left: 0;
+	         top: 0;
+	         width: 100% !important;
+	         height: 100% !important;
+	    }
         </style>
-        <script type='text/javascript' src='jsmess-loader.js'></script>
-        <script type='text/javascript' src='jsmess-launcher.js'></script>
+        <script src='jsmess-loader.js'></script>
+        <script src='jsmess-launcher.js'></script>
     </head>
     <body>
         <div id='canvasholder'>
             <select id="selgame"></select><br/>
             <canvas id="canvas" width="512" height="512"></canvas>
+	    <br/>
+	    <button id="gofullscreen">Fullscreen</button>
         </div>
         <div id="gameinfo"></div>
         <div id="moduleinfo"></div>

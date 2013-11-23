@@ -9,6 +9,14 @@
   var mess;
   var module;
 
+  function getfullscreenenabler() {
+    return canvas.webkitRequestFullScreen || canvas.mozRequestFullScreen || canvas.requestFullScreen;
+  }
+
+  function isfullscreensupported() {
+   return !!(getfullscreenenabler())
+  }
+
   function getmodule() {
     module = get('module');
     module = module ? module : 'test';
@@ -56,8 +64,16 @@
   }
 
   function ready() {
+    var fullscreenbutton = document.getElementById('gofullscreen');
     var select = document.getElementById('selgame'); 
 
+    if (fullscreenbutton) {
+       if (isfullscreensupported()) {
+	   fullscreenbutton.addEventListener('click', gofullscreen);
+       } else {
+	   fullscreenbutton.disabled = true;
+       }
+    }
     if (select) {
       if(!games) {
         select.style.display = 'none';
@@ -95,6 +111,11 @@
 
   function switchgame(e) {
     setgame(e.target.value);
+  }
+
+
+  function gofullscreen() {
+      getfullscreenenabler().call(canvas);
   }
 
   window.addEventListener('load', init);
