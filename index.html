@@ -27,6 +27,22 @@
         </style>
         <script src='jsmess-loader.js'></script>
         <script src='jsmess-launcher.js'></script>
+	<script>
+	  var bg = "white";
+	  function changeColor() {
+	    if (bg=="black") {
+	      document.body.style.background = "white";
+	      document.body.style.color = "black";
+	      document.getElementById("cchange_button").innerHTML="Dark Background";
+	      bg="white";
+	    } else {
+	      bg="black";
+	      document.body.style.background = "black";
+	      document.body.style.color = "white";
+	      document.getElementById("cchange_button").innerHTML="Light Background";
+	    }
+	  }
+	</script>
     </head>
     <body>
         <div id='canvasholder'>
@@ -34,6 +50,7 @@
             <canvas id="canvas" width="512" height="512"></canvas>
 	    <br/>
 	    <button id="gofullscreen">Fullscreen</button>
+	    <button id="cchange_button" onclick="changeColor()">Dark Background</button>
         </div>
         <div id="gameinfo"></div>
         <div id="moduleinfo"></div>
