@@ -114,7 +114,6 @@ function JSMESS(canvas, module, game, precallback, callback, scale) {
       '-verbose',
       '-rompath','.',
       '-window',
-      '-nosound',
       '-resolution', nr[0]+'x' + nr[1],
       '-nokeepaspect'
     ];
@@ -175,7 +174,10 @@ function JSMESS(canvas, module, game, precallback, callback, scale) {
     }
   }
 
+  this.hasStarted = false;
+  var self = this;
   var start = function() {
+    self.hasStarted = true;
     ignorecommonkeys();
     window.removeEventListener('keypress', keyevent);
     drawloadingtimer = window.setInterval(draw_loading_status, 1000/60);
