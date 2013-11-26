@@ -127,6 +127,7 @@ function JSMESS(canvas, module, game, precallback, callback, scale) {
 
     Module = {
       arguments: arguments,
+      SDL_numSimultaneouslyQueuedBuffers: 5,
       print: (function() {
         return function(text) {
           console.log(text);
@@ -175,6 +176,7 @@ function JSMESS(canvas, module, game, precallback, callback, scale) {
   }
 
   var start = function() {
+    ignorecommonkeys();
     window.removeEventListener('keypress', keyevent);
     drawloadingtimer = window.setInterval(draw_loading_status, 1000/60);
     if (precallback) {
@@ -198,6 +200,14 @@ function JSMESS(canvas, module, game, precallback, callback, scale) {
     };
     spinnerimg.onload = function() { splashimg.src = 'splash.png'; }
     spinnerimg.src = 'spinner.png';
+  }
+
+  var ignorecommonkeys = function() {
+      window.addEventListener('keydown', function(e) {
+	  if([32, 37, 38, 39, 40].indexOf(e.keyCode) > -1) {
+              e.preventDefault();
+	  }
+      }, false);
   }
 
   window.addEventListener('keypress', keyevent);
