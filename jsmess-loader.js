@@ -19,17 +19,19 @@ function JSMESS(canvas, module, game, precallback, callback, scale) {
     if(!hasaudioinit()) {
         window.setTimeout(muteonce, 0)
     } else {
-        this.setmuted(mute)
+        window.setTimeout(function() {setmuted(mute)}, 0)
     }
   }
 
   this.setmuted = function(_mute) {
     mute = _mute;
-    if (hasaudioinit()) {
+
+    if (!mute || hasaudioinit()) {
         Module.ccall('SDL_PauseAudio', '', ['number'], [mute ? 1 : 0])
     }
     return this;
   }
+  var setmuted = this.setmuted
 
   this.setscale = function(_scale) {
     scale = _scale
