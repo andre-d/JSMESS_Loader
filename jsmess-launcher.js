@@ -96,8 +96,8 @@
     var shouldMute = get('mute') ? parseInt(get('mute')) : true;
     mess = new JSMESS(canvas)
       .setprecallback(emustart)
-      .setscale(shouldMute)
-      .setmuted()
+      .setscale(get('scale') ? parseFloat(get('scale')) : 1)
+      .setmuted(shouldMute)
       .setmodule(module);
     if (mute) {
         mute.checked = !!shouldMute;
