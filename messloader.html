@@ -17,41 +17,41 @@
                 text-align: center;
             }
 
-	    :-webkit-full-screen {
-	         position: fixed;
-	         left: 0;
-	         top: 0;
-	         width: 100% !important;
-	         height: 100% !important;
-	    }
+        :-webkit-full-screen {
+             position: fixed;
+             left: 0;
+             top: 0;
+             width: 100% !important;
+             height: 100% !important;
+        }
         </style>
         <script src='jsmess-loader.js'></script>
         <script src='jsmess-launcher.js'></script>
-	<script>
-	  var bg = "white";
-	  function changeColor() {
-	    if (bg=="black") {
-	      document.body.style.background = "white";
-	      document.body.style.color = "black";
-	      document.getElementById("cchange_button").innerHTML="Dark Background";
-	      bg="white";
-	    } else {
-	      bg="black";
-	      document.body.style.background = "black";
-	      document.body.style.color = "white";
-	      document.getElementById("cchange_button").innerHTML="Light Background";
-	    }
-	  }
-	</script>
+    <script>
+      var bg = "white";
+      function changeColor() {
+        if (bg=="black") {
+          document.body.style.background = "white";
+          document.body.style.color = "black";
+          document.getElementById("cchange_button").innerHTML="Dark Background";
+          bg="white";
+        } else {
+          bg="black";
+          document.body.style.background = "black";
+          document.body.style.color = "white";
+          document.getElementById("cchange_button").innerHTML="Light Background";
+        }
+      }
+    </script>
     </head>
     <body>
         <div id='canvasholder'>
             <select id="selgame"></select><br/>
             <canvas id="canvas" width="512" height="512"></canvas>
-	    <br/>
-	    <button id="gofullscreen">Fullscreen</button>
-	    <button id="cchange_button" onclick="changeColor()">Dark Background</button>
-	    <label for="mute">Mute</label><input type="checkbox" id="mute"></input>
+        <br/>
+        <button id="gofullscreen">Fullscreen</button>
+        <button id="cchange_button" onclick="changeColor()">Dark Background</button>
+        <label for="mute">Mute</label><input type="checkbox" id="mute"></input>
         <div id='gamepadtext'></div>
         </div>
         <div id="gameinfo"></div>

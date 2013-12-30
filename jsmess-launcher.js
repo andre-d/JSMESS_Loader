@@ -77,9 +77,9 @@
 
     if (fullscreenbutton) {
        if (isfullscreensupported()) {
-	   fullscreenbutton.addEventListener('click', gofullscreen);
+       fullscreenbutton.addEventListener('click', gofullscreen);
        } else {
-	   fullscreenbutton.disabled = true;
+       fullscreenbutton.disabled = true;
        }
     }
     if (select) {
