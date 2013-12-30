@@ -9,10 +9,25 @@ function JSMESS(canvas, module, game, precallback, callback, scale) {
   var spinnerrot = 0;
   var splashimg = new Image();
   var spinnerimg = new Image();
-  this.mute = true;
+  var mute = true;
 
-  this.setmuted = function(mute) {
-    this.mute = mute;
+  var hasaudioinit = function() {
+      return !!(typeof Module != 'undefined' && typeof SDL != 'undefined' && SDL.audio);
+  }
+
+  var muteonce = function() {
+    if(!hasaudioinit()) {
+        window.setTimeout(muteonce, 0)
+    } else {
+        this.setmuted()
+    }
+  }
+
+  this.setmuted = function(_mute) {
+    mute = _mute;
+    if (hasaudioinit()) {
+        Module.ccall('SDL_PauseAudio', '', ['number'], [mute ? 1 : 0])
+    }
     return this;
   }
 
@@ -126,12 +141,11 @@ function JSMESS(canvas, module, game, precallback, callback, scale) {
     if (game) {
       arguments.push('-' + modulecfg['peripherals'][0], game.replace(/\//g,'_'))
     }
-    if (this.mute) {
-      arguments.push('-nosound')
-    }
     if (modulecfg['extra_args']) {
       arguments = arguments.concat(modulecfg['extra_args'])
     }
+
+    var self = this;
 
     Module = {
       arguments: arguments,
@@ -156,6 +170,9 @@ function JSMESS(canvas, module, game, precallback, callback, scale) {
         if (callback) {
           modulecfg.canvas = canvas;
           window.setTimeout(function() {callback(modulecfg)}, 0);
+        }
+        if (mute) {
+          muteonce();
         }
       }
     };

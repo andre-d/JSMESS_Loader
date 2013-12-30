@@ -54,10 +54,6 @@
     if (select) {
        select.style.display = 'none';
     }
-    var mute = document.getElementById('mute');
-    if (mute) {
-       mute.disabled = true;
-    }
   }
 
   function init() {
@@ -97,13 +93,14 @@
     }
 
     var canvas = document.getElementById('canvas');
+    var shouldMute = get('mute') ? parseInt(get('mute')) : true;
     mess = new JSMESS(canvas)
       .setprecallback(emustart)
-      .setscale(get('scale') ? parseFloat(get('scale')) : 1)
-      .setmuted(get('mute') ? parseInt(get('mute')) : true)
+      .setscale(shouldMute)
+      .setmuted()
       .setmodule(module);
-    if(mute) {
-        mute.checked = mess.mute;
+    if (mute) {
+        mute.checked = !!shouldMute;
         mute.addEventListener('click', switchmute);
     }
     setgame(games ? games[0] : get('game'))
