@@ -19,7 +19,8 @@ function JSMESS(canvas, module, game, precallback, callback, scale) {
     if(!hasaudioinit()) {
         window.setTimeout(muteonce, 0)
     } else {
-        window.setTimeout(function() {setmuted(mute)}, 0)
+        // FIXME: Initial mute is timing dependent
+        window.setTimeout(function() {setmuted(mute)}, 500)
     }
   }
 
