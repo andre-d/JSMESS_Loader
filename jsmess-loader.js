@@ -9,6 +9,12 @@ function JSMESS(canvas, module, game, precallback, callback, scale) {
   var spinnerrot = 0;
   var splashimg = new Image();
   var spinnerimg = new Image();
+  this.mute = true;
+
+  this.setmuted = function(mute) {
+    this.mute = mute;
+    return this;
+  }
 
   this.setscale = function(_scale) {
     scale = _scale
@@ -119,6 +125,9 @@ function JSMESS(canvas, module, game, precallback, callback, scale) {
     ];
     if (game) {
       arguments.push('-' + modulecfg['peripherals'][0], game.replace(/\//g,'_'))
+    }
+    if (this.mute) {
+      arguments.push('-nosound')
     }
     if (modulecfg['extra_args']) {
       arguments = arguments.concat(modulecfg['extra_args'])

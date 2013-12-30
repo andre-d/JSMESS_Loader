@@ -50,7 +50,14 @@
   }
 
   function emustart() {
-    document.getElementById('selgame').style.display = 'none';
+    var select = document.getElementById('selgame');
+    if (select) {
+       select.style.display = 'none';
+    }
+    var mute = document.getElementById('mute');
+    if (mute) {
+       mute.disabled = true;
+    }
   }
 
   function init() {
@@ -66,6 +73,7 @@
   function ready() {
     var fullscreenbutton = document.getElementById('gofullscreen');
     var select = document.getElementById('selgame'); 
+    var mute = document.getElementById('mute');
 
     if (fullscreenbutton) {
        if (isfullscreensupported()) {
@@ -92,7 +100,12 @@
     mess = new JSMESS(canvas)
       .setprecallback(emustart)
       .setscale(get('scale') ? parseFloat(get('scale')) : 1)
+      .setmuted(get('mute') ? parseInt(get('mute')) : true)
       .setmodule(module);
+    if(mute) {
+        mute.checked = mess.mute;
+        mute.addEventListener('click', switchmute);
+    }
     setgame(games ? games[0] : get('game'))
     if (get('autostart')) {
       mess.start();
@@ -123,6 +136,10 @@
        document.getElementById('gameinfo').innerHTML = '';
     }
     mess.setgame(game ? 'roms/' + module + '/' + game : undefined);
+  }
+
+  function switchmute(e) {
+      mess.setmuted(this.checked)
   }
 
   function switchgame(e) {
