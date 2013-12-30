@@ -1,4 +1,4 @@
-var Module = null;
+var Module = undefined;
 
 function JSMESS(canvas, module, game, precallback, callback, scale) {
   var js_data;
@@ -25,8 +25,7 @@ function JSMESS(canvas, module, game, precallback, callback, scale) {
 
   this.setmuted = function(_mute) {
     mute = _mute;
-
-    if (!mute || hasaudioinit()) {
+    if ((!mute && typeof Module != 'undefined') || hasaudioinit()) {
         Module.ccall('SDL_PauseAudio', '', ['number'], [mute ? 1 : 0])
     }
     return this;
