@@ -44,6 +44,23 @@ function JSMESS(canvas, module, game, precallback, callback, scale) {
     return this;
   }
 
+  function get_sampleRate() {
+    if (typeof Audio != 'undefined' && (!!new Audio().mozSetup)) {
+      return;
+    }
+    var asample;
+    try {
+      asample = new AudioContext();
+    } catch (e) {
+      try {
+        asample = new webkitAudioContext();
+      } catch (e) {
+        return;
+      }
+    }
+    return asample.sampleRate;
+  }
+
   var draw_loading_status = function() {
     var context = canvas.getContext('2d');
     context.clearRect(0, 0, canvas.width, canvas.height);
@@ -131,6 +148,12 @@ function JSMESS(canvas, module, game, precallback, callback, scale) {
     if (game) {
       arguments.push('-' + modulecfg['peripherals'][0], game.replace(/\//g,'_'))
     }
+
+    var sampleRate = get_sampleRate();
+    if (sampleRate) {
+      arguments.push("-samplerate", sampleRate.toString());
+    }
+
     if (modulecfg['extra_args']) {
       arguments = arguments.concat(modulecfg['extra_args'])
     }
