@@ -11,27 +11,13 @@ function JSMESS(canvas, module, game, precallback, callback, scale) {
   var spinnerimg = new Image();
   var mute = true;
 
-  var hasaudioinit = function() {
-      return !!(typeof Module != 'undefined' && typeof SDL != 'undefined' && SDL.audio);
-  }
-
-  var muteonce = function() {
-    if(!hasaudioinit()) {
-        window.setTimeout(muteonce, 0)
-    } else {
-        // FIXME: Initial mute is timing dependent
-        window.setTimeout(function() {setmuted(mute)}, 500)
-    }
-  }
-
   this.setmuted = function(_mute) {
     mute = _mute;
-    if ((!mute && typeof Module != 'undefined') || hasaudioinit()) {
+    if (typeof Module != 'undefined') {
         Module.ccall('SDL_PauseAudio', '', ['number'], [mute ? 1 : 0])
     }
     return this;
   }
-  var setmuted = this.setmuted
 
   this.setscale = function(_scale) {
     scale = _scale
@@ -118,6 +104,8 @@ function JSMESS(canvas, module, game, precallback, callback, scale) {
     }
   };
 
+  var self = this;
+
   var init_module = function() {
     var modulecfg = JSON.parse(moduledata);
 
@@ -147,11 +135,10 @@ function JSMESS(canvas, module, game, precallback, callback, scale) {
       arguments = arguments.concat(modulecfg['extra_args'])
     }
 
-    var self = this;
-
     Module = {
       arguments: arguments,
       SDL_numSimultaneouslyQueuedBuffers: 5,
+      screenIsReadOnly: true,
       print: (function() {
         return function(text) {
           console.log(text);
@@ -173,9 +160,6 @@ function JSMESS(canvas, module, game, precallback, callback, scale) {
           modulecfg.canvas = canvas;
           window.setTimeout(function() {callback(modulecfg)}, 0);
         }
-        if (mute) {
-          muteonce();
-        }
       }
     };
 
@@ -192,6 +176,8 @@ function JSMESS(canvas, module, game, precallback, callback, scale) {
       fetch_file('Game', game, function(data) { game_file = data; update_countdown(); });
     }
 
+    JSMESS.ready(function() {self.setmuted(mute);});
+
     fetch_file('Javascript', 'jsmess/' + modulecfg['js_filename'], function(data) { js_data = data; update_countdown(); }, 'text', true);
   };
 
@@ -203,7 +189,6 @@ function JSMESS(canvas, module, game, precallback, callback, scale) {
   }
 
   this.hasStarted = false;
-  var self = this;
   var start = function() {
     self.hasStarted = true;
     ignorecommonkeys();
@@ -242,4 +227,36 @@ function JSMESS(canvas, module, game, precallback, callback, scale) {
 
   window.addEventListener('keypress', keyevent);
   drawsplash();
+}
+
+JSMESS._readySet = false;
+
+JSMESS._readyList = [];
+
+JSMESS._runReadies = function() {
+  if (JSMESS._readyList) {
+    for (var r=0; r < JSMESS._readyList.length; r++) {
+      JSMESS._readyList[r].call(window, []);
+    };
+    JSMESS._readyList = [];
+  };
+};
+
+JSMESS._readyCheck = function() {
+  if (JSMESS.running) {
+    JSMESS._runReadies();
+  } else {
+    JSMESS._readySet = setTimeout(JSMESS._readyCheck, 10);
+  };
+};
+
+JSMESS.ready = function(r) {
+  if (JSMESS.running) {
+    r.call(window, []);
+  } else {
+    JSMESS._readyList.push(function() { return r.call(window, []); } );
+    if (!(JSMESS._readySet)) {
+      JSMESS._readyCheck();
+    }
+  };
 }
