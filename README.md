@@ -36,3 +36,7 @@ npm run jsdoc
 ```
 
 Once that completes you can open **docs/index.html** in your browser.
+
+## License
+
+Copyright (c) 2014 Licensed under the MIT license.

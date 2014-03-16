@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "description": "Loads MESS ROM images.",
   "main": "lib",
+  "license": "MIT",
   "directories": {
     "test": "test"
   },
