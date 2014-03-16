@@ -3,9 +3,9 @@ define(function(require) {
 
   var JSMESS = require('../../lib/loader');
 
-  describe('Exports', function() {
+  describe('Loader', function() {
     it('exposes a function', function() {
       expect(JSMESS).to.be.a('function');
-    })
-  })
+    });
+  });
 });
