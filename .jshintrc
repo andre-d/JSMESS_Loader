@@ -7,6 +7,7 @@
   "node": true,
   "eqnull": true,
   "newcap": false,
+  "browser": true,
 
   "globals": {
     "AudioContext": true,
@@ -20,8 +21,7 @@
     "XMLHttpRequest": true,
     "newgamepad": true,
     "canvas": true,
-    "addEventListener": true,
-    "canvas": true,
-    "define": true
+    "define": true,
+    "require": true
   }
 }
