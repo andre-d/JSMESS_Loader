@@ -25,7 +25,7 @@ define(function(require) {
     });
 
     describe('polling', function() {
-
+      it('does not error'
     });
   });
 });
