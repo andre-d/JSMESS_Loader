@@ -8,7 +8,7 @@
   },
   "scripts": {
     "ci": "npm run test && npm run lint",
-    "test": "mocha --reporter spec --ui tdd test/*",
+    "test": "mocha --require test/setup.js --reporter spec test/tests/*",
     "lint": "jshint lib/ test/*.js",
     "doc": "jsdoc -r -d docs/ lib/"
   },
@@ -17,6 +17,7 @@
     "mocha": "~1.17.0",
     "chai": "~1.8.1",
     "jsdoc": "~3.3.0-alpha4",
-    "alameda": "~0.2.0"
+    "alameda": "~0.2.0",
+    "amdefine": "~0.1.0"
   }
 }
