@@ -3,30 +3,26 @@ define(function(require) {
 
   var gamepad = require('../../lib/gamepad');
 
-  suite('Browser', function() {
-    describe('Gamepad', function() {
-      it('exposes an object', function() {
-        expect(gamepad).to.be.an('object');
-      });
+  // Mock the native getGamepads method.
+  gamepad.getGamepads = function() {
+    return [{ id: 404 }];
+  };
 
-      describe('isSupported', function() {
-        it('is a boolean', function() {
-          expect(gamepad.isSupported).to.be.a('boolean');
+  describe('Gamepad (Browser)', function() {
+    it('is supported', function() {
+      expect(gamepad.isSupported).to.equal(true);
+    });
+
+    describe('polling', function() {
+      it('receives connected devices', function(done) {
+        gamepad.pollForDevices(function(connected) {
+          expect(connected[0].id).to.equal(404);
+          expect(gamepad.connected[404]).to.equal(connected[0]);
+          expect(this.stop).to.be.a('function');
+
+          this.stop();
+          done();
         });
-
-        it('matches the exported getGamepads value', function() {
-          expect(!!gamepad.isSupported).to.equal(!!gamepad.getGamepads);
-        });
-      });
-
-      describe('connected', function() {
-        it('is an object', function() {
-          expect(gamepad.connected).to.be.an('object');
-        });
-      });
-
-      describe('polling', function() {
-
       });
     });
   });

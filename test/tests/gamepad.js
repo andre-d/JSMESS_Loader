@@ -24,8 +24,10 @@ define(function(require) {
       });
     });
 
-    describe('polling', function() {
-      it('does not error'
+    describe('pollForDevices', function() {
+      it('is a method', function() {
+        expect(gamepad.pollForDevices).to.be.a('function');
+      });
     });
   });
 });
