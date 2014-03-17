@@ -7,3 +7,6 @@ global.expect = require('chai').expect;
 
 // Export the global object as window.
 global.window = global;
+
+// Globally expose the AudioContext constructor from the Web Audio API.
+global.AudioContext = require("web-audio-api").AudioContext;

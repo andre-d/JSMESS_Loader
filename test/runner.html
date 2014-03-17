@@ -15,7 +15,8 @@
     window.expect = chai.expect;
 
     require([
-      "tests/exports"
+      "tests/loader",
+      "tests/utils/get_sample_rate"
     ], function() {
       mocha.checkLeaks();
       mocha.run();
