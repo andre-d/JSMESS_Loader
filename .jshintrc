@@ -1,0 +1,27 @@
+{
+  "quotmark": "single",
+  "esnext": true,
+  "trailing": true,
+  "unused": true,
+  "undef": true,
+  "node": true,
+  "eqnull": true,
+  "newcap": false,
+
+  "globals": {
+    "AudioContext": true,
+    "webkitAudioContext": true,
+    "test": true,
+    "window": true,
+    "document": true,
+    "location": true,
+    "navigator": true,
+    "Image": true,
+    "XMLHttpRequest": true,
+    "newgamepad": true,
+    "canvas": true,
+    "addEventListener": true,
+    "canvas": true,
+    "define": true
+  }
+}
