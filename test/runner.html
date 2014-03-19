@@ -14,10 +14,17 @@
   <script>
     window.expect = chai.expect;
 
-    require([
+    var tests = [
+      // Unit tests.
       "tests/loader",
-      "tests/utils/get_sample_rate"
-    ], function() {
+      "tests/gamepad",
+      "tests/utils/get_sample_rate",
+
+      // Browser-specific unit tests.
+      "browser/gamepad"
+    ];
+
+    require(tests, function() {
       mocha.checkLeaks();
       mocha.run();
     });
