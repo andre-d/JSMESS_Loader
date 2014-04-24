@@ -1,7 +1,7 @@
 define(function(require) {
   'use strict';
 
-  var gamepad = require('../../lib/gamepad');
+  var gamepad = require('../../lib/features/gamepad');
 
   describe('Gamepad', function() {
     it('exposes an object', function() {
