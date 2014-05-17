@@ -1,7 +1,7 @@
 define(function(require) {
   'use strict';
 
-  var gamepad = require('../../lib/gamepad');
+  var gamepad = require('../../lib/features/gamepad');
 
   // Mock the native getGamepads method.
   gamepad.getGamepads = function() {
