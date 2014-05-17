@@ -2,6 +2,8 @@
 
 > Loads MESS ROM images.
 
+[![Build Status](https://travis-ci.org/andre-d/JSMESS_Loader.png?branch=master)](https://travis-ci.org/andre-d/JSMESS_Loader)
+
 ## Example
 
 TBD
